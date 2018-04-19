@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>播放主页</title>
+    <link rel="stylesheet" href="./assets/bootstrap.css"/>
+    <link rel="stylesheet" href="./assets/footer.css"/>
+    <link rel="stylesheet" href="./assets/container.css"/>
+    <style media="screen">
+        body{
+            /*padding-top: 20px;*/
+        }
+        .row{
+        	background: white;
+        	padding-top: 20px;
+        	/*top: 20px;*/
+        	width: 100%;
+        	margin: 0 auto;
+        }
+		#row-nav{
+			margin-bottom: 5px;
+			
+		}
+		#row-nav a{
+			text-decoration: none;
+		}
+		.btn:focus,.btn:active:focus,.btn.active:focus,.btn.focus,.btn:active.focus,.btn.active.focus {
+		outline: none;          
+		}
+		.local-li:first-child{
+			background: lightblue;
+		}
+    </style>
+</head>
+<body ng-app="musicPlay" ng-controller="MusicController">
+	<div class="row navbar-fixed-top">
+		<div id="row-nav" class="btn-group col-xs-12" role="group" aria-label="...">
+	        <button type="button" class="btn btn-info col-xs-4"><a ui-sref="local_music">本地乐库</a></button>
+	        <button type="button" class="btn btn-info col-xs-4"><a ui-sref="net_radio">网络电台</a></button>
+	  		<button type="button" class="btn btn-info col-xs-4"><a ui-sref="personal">随身听</a></button>
+	    </div>
+	    <div class="col-xs-12">
+	        <input type="text" class="form-control" placeholder="输入曲目..." ng-model="searchKey">
+	    </div>
+	</div>
+    
+    <div id="container">
+    	 <div ui-view></div>
+    </div>
+    <div id="footer" class="navbar-fixed-bottom col-xs-12">
+    	<div id="photo">
+    		<span ng-click="bofang()" id="m-play" class="glyphicon glyphicon-play" aria-hidden="true"></span>
+    		<span ng-click="stop()" id="m-pause" class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+    	</div>
+    	<div id="ctrl">
+    		<span id="m-fastback" class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span>
+    		<span ng-click="previous()" id="m-back" class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+    		<span ng-click="next()" id="m-forward" class="glyphicon glyphicon-forward" aria-hidden="true"></span>
+    		<span id="m-fastfor" class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span>
+    	</div>
+    </div>
+    <script src="./assets/jquery.min.js"></script>
+    <script src="./assets/bootstrap.min.js"></script>
+    <script src="./assets/angular.min.js"></script>
+    <script src="./assets/angular-ui-router.js"></script>
+    <script src="./assets/router.js"></script>
+    <script src="assets/footer.js"></script>
+    <script src="assets/local_music.js"></script>
+    <script type="text/javascript">
+    	app.controller('MusicController',["$scope",'$sce',function($scope,$sce){
+    		//音乐列表
+			var musicList = [
+			{musicId:"0",name:"Dearfriends",url:"audio/Dearfriends.mp3",geci:"每天夕阳西下	泥まみれになりながら 满身灰泥 無邪気に過ごした日々も  难忘儿时 天真的我们   捨て難いけれど  那无忧无虑的日子  夢見る僕が居ても  那是做着 それはそれで僕だから 美好的梦的我 ジグソーパズルみたいに 可以不必在乎 はまってなくて良い 那些拼图 誰かのYes 别人说的对 が君にとって 对你来说 Noであるのと同じように 和错没有两样 いつだって自由なはずだから 无论何时都应该如此自由 明日 風が通り抜けた時に 就算明天大风 パズ が欠けていたとしても 吹散了拼图 誰もそれを責めたりしないよ 也不会有人责备 あの日夢見た僕らは 那一天憧憬着梦想的我们 間違いじゃないと信じて 坚信着彼此的信念 荒くうねる海原を 定能跨过 渡って行ける 波涛汹涌的大海 君の胸の痛みだって 你的痛苦 僕らは知っているから 我们比谁都清楚 もしも君がこの船を下りて 即使你离开这条船 違う世界に居たとしても 去了不同的世界 最後にはきっと笑えるよ 最后也定能开怀大笑 今でも僕らは 现在我们 夢を見ているよ 仍然在憧憬着梦想 託されたその想いも 带上这一份 乗せて 你寄托给我们的梦想 荒れたこの海原を 这一路 我们和这片汹涌的海洋 痛みと戦って今日も行く 和心中的苦痛奋战 今天也要继续向前 約束が嘘にならないように 约定的誓言永远不会是谎言 そしていつか 直到有一天 僕らの船を下りた 向离开这条船 違う世界に居る君に 去了不同世界的你 完成したパズルを届けよう 传递 我们已完成的拼图"},
+			{musicId:"1",name:"Mandy",url:"audio/Mandy.mp3",geci:"黑黑的天空低垂 亮亮的繁星相随 虫儿飞虫儿飞 你在思念谁 天上的星星流泪 地上的玫瑰枯萎 冷风吹冷风吹 只要有你陪 虫儿飞花儿睡 一双又一对才美 不怕天黑只怕心碎 不管累不累 也不管东南西北"},
+			{musicId:"2",name:"What Makes A Man",url:"audio/WhatMakesAMan.mp3",geci:"春天在哪里呀?  春天在哪里呀?  春天在那青翠的山林里  这里有红花呀,这里有绿草  还有那会唱歌的小黄鹂  嘀哩哩嘀哩嘀哩哩,  嘀哩哩嘀哩嘀哩哩  春天在青翠的山林里,  还有那会唱歌的小黄鹂"},
+			{musicId:"3",name:"Things",url:"audio/things.mp3",geci:"lllllll"},
+			{musicId:"4",name:"Apologize",url:"audio/Apologize.mp3",geci:"lllllll"},
+			{musicId:"5",name:"If I Die Young",url:"audio/IfIDieYoung.mp3",geci:"lllllll"},
+			{musicId:"6",name:"Try",url:"audio/Try.mp3",geci:"lllllll"},
+			{musicId:"7",name:"My love",url:"audio/mylove.mp3",geci:"lllllll"},
+			{musicId:"8",name:"IF YOU",url:"audio/IFYOU.mp3",geci:"lllllll"},
+			{musicId:"9",name:"Booty music",url:"audio/bootymusic.mp3",geci:"lllllll"},
+			{musicId:"10",name:"Young For You",url:"audio/YoungForYou.mp3",geci:"lllllll"},
+			{musicId:"11",name:"What if",url:"audio/whatif.mp3",geci:"lllllll"},
+			{musicId:"12",name:"The truth that you leave",url:"audio/thetruththatyouleave.mp3",geci:"lllllll"},
+			{musicId:"13",name:"The dawn",url:"audio/thedawn.mp3",geci:"lllllll"},
+			{musicId:"14",name:"How To Break A Heart",url:"audio/HowToBreakAHeart.mp3",geci:"lllllll"},
+			{musicId:"15",name:"Us Against The World",url:"audio/UsAgainstTheWorld.mp3",geci:"lllllll"},
+			{musicId:"16",name:"Because You Live",url:"audio/BecauseYouLive.mp3",geci:"lllllll"}
+			];
+			//定义加载音频文件
+			var trueUrl=$sce.trustAsResourceUrl($scope.url);
+    		$scope.url=trueUrl;
+    		//
+    		var index = 0;//当前音乐对象对应的下标
+			//播放状态
+//			$scope.isPlay = false;
+			var audioEle = null;
+			//当前正在播放的音乐对象
+			$scope.currentMusic = musicList[index];
+			//播放音乐
+			$scope.bofang = function(){
+				if(audioEle == null){
+			//创建audio元素  audio有play和pause的方法
+					audioEle = document.createElement("audio");
+			//指定歌曲路径
+					audioEle.src = $scope.currentMusic.url;
+			//绑定结束事件，实现自动播放
+					audioEle.onended = function(){
+			//手动更新视图(解决音乐换掉是歌词不换的问题)
+						$scope.$apply(function(){
+			//播放下一首
+						$scope.next();
+						});  
+					};
+				};
+			
+	    	//调用播放方法
+				audioEle.play();
+			//更新播放状态
+//			$scope.isPlay = true;
+			//暂停播放
+			};
+			$scope.stop = function(){
+				audioEle.pause();//调用audio的暂停方法
+//				$scope.isPlay = false;
+			};
+		
+			//下一首
+			$scope.next = function(){
+			//判断下标
+				if(index == musicList.length-1){
+			//alert("别点了，后边没有了");
+					index = 0;
+				}else{
+					index++;
+				}
+			//停掉正在播放的音乐
+				$scope.stop();
+			//重置当前音乐
+				$scope.currentMusic = musicList[index];
+			//将之前音乐元素置为null
+				audioEle = null;
+				$scope.bofang();
+				$scope.musicNow(index);
+			};
+			//上一首
+			$scope.previous = function(){
+			//判断下标
+				if(index == 0){
+					index = musicList.length-1;
+				}else{
+			//下标+1
+					index--;
+				}
+			//停掉正在播放的音乐
+				$scope.stop();
+				
+			//重置当前音乐
+				$scope.currentMusic = musicList[index];
+			//将之前音乐元素置为null
+				audioEle = null;
+				$scope.bofang();
+				$scope.musicNow(index);
+			};
+
+			//获取歌曲
+			$scope.items=[];
+			$scope.items=musicList;
+			//点击a链接，播放歌曲
+//			$('.local-li').click(function(){
+//				alert($(this).index("li"));
+//				return index=$(this).index("li");
+//			})
+			$scope.musicNow=function(x){
+				$('.local-li').eq(x).css({'background':'lightblue'});
+				$('.local-li').not($('.local-li').eq(x)).css({'background':'white'});
+			}
+	    	$scope.musicClick=function(musicId){
+	    		$scope.musicNow(musicId);
+	    		if(audioEle != null)
+	    		{$scope.stop();}
+	    		if(audioEle == null)
+	    		{
+	    			$('#photo span').eq(0).hide();
+					$('#photo span').eq(1).show();
+	    		}
+	    		index=musicId;
+	    		$scope.currentMusic = musicList[index];
+	    		audioEle = null;
+				$scope.bofang();
+	    	}
+		}]);
+    </script>
+</body>
+</html>

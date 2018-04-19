@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>net_radio</title>
+		<link rel="stylesheet" type="text/css" href="../assets/net_radio.css"/>
+	</head>
+	<body>
+		<div class="net_div"><span>经典粤语</span></div>
+		<div class="net_div"><span>中国风</span></div>
+		<div class="net_div"><span>摩羯座</span></div>
+		<div class="net_div"><span>怀旧风</span></div>
+		<div class="net_div"><span>钢琴曲</span></div>
+		<div class="net_div"><span>天天动听</span></div>
+		<div class="net_div"><span>老哥传唱</span></div>
+		<div class="net_div"><span>新歌榜</span></div>
+		<div class="net_div"><span>现场歌曲</span></div>
+		<script type="text/javascript">
+//			console.log(color); //输出16进制颜色编码
+			$('.net_div').each(function(){
+				//红，绿，蓝三原色，10进制码转16进制，随机数1到256之间
+				var red = parseInt(Math.random()*257).toString(16);
+				var blue = parseInt(Math.random()*257).toString(16);
+				var green= parseInt(Math.random()*257).toString(16);
+				var color = '#'+red+blue+green;
+				$(this).css('background-color',color);
+			})
+		</script>
+	</body>
+</html>

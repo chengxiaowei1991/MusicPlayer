@@ -1,0 +1,35 @@
+#footer{
+	/*height: auto;*/
+	/*bottom: 0px;*/
+	/*position: absolute;*/
+	background: white;
+	height: 60px;
+	width: 100%;
+	padding: 0 15px;
+	/*margin: 0 15px;*/
+	border-radius: 5px;
+}
+#photo{
+	float: left;
+	text-align: center;
+	background: #5bc0de;
+	height: 40px;
+	width: 40px;
+	border-radius: 20px;
+	margin: 10px;
+}
+#photo span{
+	float: left;
+	padding: 8px 12px;
+	margin: auto;
+	font-size: 20px;
+}
+#ctrl{
+	float: right;
+	/*padding: 6px;*/
+	/*margin: 0 10px;*/
+}
+#ctrl span{
+	padding:10px 10px;
+	font-size: 20px;
+}
